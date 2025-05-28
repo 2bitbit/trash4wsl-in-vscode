@@ -23,4 +23,7 @@ Your files and folders will be moved to the default trash directory used by tras
 - WSL
 - Your smile
 
+
+
 <p align="center"><strong>Enjoy!</strong></p>
+<p align="center">Co-build with <strong>Gemini-2.5 pro</strong></p>

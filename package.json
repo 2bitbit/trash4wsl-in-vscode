@@ -1,0 +1,47 @@
+{
+  "name": "trash4wsl-in-vscode",
+  "displayName": "trash4wsl-in-vscode",
+  "description": "You'll never have to worry about \"Delete Permanently\" in wsl",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+  "commands": [
+    {
+      "command": "trash4wsl-in-vscode.deleteWithTrashCli",
+      "title": "Delete (by trash-cli)",
+      "category": "Trash4WSL"
+    }
+  ],
+  "menus": {
+    "explorer/context": [
+      {
+        "command": "trash4wsl-in-vscode.deleteWithTrashCli",
+      "when": "resourceScheme == 'vscode-remote' && !explorerResourceIsRoot",
+        "group": "7_modification@0"
+      }
+    ]
+  }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "eslint": "^9.25.1",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}

@@ -2,6 +2,10 @@
   "name": "trash4wsl-in-vscode",
   "displayName": "trash4wsl-in-vscode",
   "description": "You'll never have to worry about \"Delete Permanently\" in wsl",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/2bitbit/trash4wsl-in-vscode"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.80.0"

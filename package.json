@@ -6,6 +6,24 @@
         "title": "Delete (by trash-cli)",
         "category": "Trash4WSL",
         "icon": "$(trash)"
+      },
+      {
+        "command": "trash4wsl-in-vscode.browseTrash",
+        "title": "浏览回收站（历史记录、恢复、清空）",
+        "category": "Trash4WSL",
+        "icon": "$(history)"
+      },
+      {
+        "command": "trash4wsl-in-vscode.undoDelete",
+        "title": "撤销删除操作",
+        "category": "Trash4WSL",
+        "icon": "$(undo)"
+      },
+      {
+        "command": "trash4wsl-in-vscode.redoDelete",
+        "title": "恢复删除操作",
+        "category": "Trash4WSL",
+        "icon": "$(redo)"
       }
     ],
     "menus": {

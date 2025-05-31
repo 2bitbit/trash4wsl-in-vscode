@@ -13,7 +13,7 @@ export class DeleteCommand {
   static async execute(uri: vscode.Uri, uris?: vscode.Uri[]) {
     // 处理参数：如果有多个文件选中，使用uris；否则使用单个uri
     const allUris = uris && uris.length > 0 ? uris : [uri];
-    const allPaths = await FileResolver.Uris2Paths(allUris);
+    const allPaths = FileResolver.Uris2Paths(allUris);
     const stdErrors = await TrashService.trashItems(allPaths);
     if (stdErrors.length > 0) {
       vscode.window.showErrorMessage(`出错了: ${stdErrors.join(', ')}`);

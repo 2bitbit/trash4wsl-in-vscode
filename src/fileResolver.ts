@@ -13,7 +13,7 @@ export class FileResolver {
    * @param allUris 所有要处理的文件/文件夹的 URI 数组
    * @returns 要处理的文件/文件夹的路径的数组
    */
-  static async Uris2Paths(allUris: vscode.Uri[]): Promise<string[]> {
+  static Uris2Paths(allUris: vscode.Uri[]): string[] {
     return allUris.map((f) => f.fsPath); 
   }
 
@@ -21,7 +21,7 @@ export class FileResolver {
    * 获取插件的显示名称
    * @returns 插件的显示名称
    */
-  static async getExtensionName(): Promise<string> {
+  static getExtensionName(): string {
     return packageObject.displayName;
   }
 }

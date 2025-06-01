@@ -1,4 +1,4 @@
-import { FileResolver } from "./fileResolver.js";
+import { Uris2Paths } from "./fsResolver.js";
 import { TrashService } from "./trashService.js";
 import * as vscode from "vscode";
 /**
@@ -13,10 +13,10 @@ export class DeleteCommand {
   static async execute(uri: vscode.Uri, uris?: vscode.Uri[]) {
     // 处理参数：如果有多个文件选中，使用uris；否则使用单个uri
     const allUris = uris && uris.length > 0 ? uris : [uri];
-    const allPaths = FileResolver.Uris2Paths(allUris);
+    const allPaths = Uris2Paths(allUris);
     const stdErrors = await TrashService.trashItems(allPaths);
     if (stdErrors.length > 0) {
-      vscode.window.showErrorMessage(`出错了: ${stdErrors.join(', ')}`);
+      vscode.window.showErrorMessage(`出错了: ${stdErrors.join(", ")}`);
     } else {
       console.log("所有文件删除成功");
     }

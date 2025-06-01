@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import { EXTENSION_NAME, MESSAGES } from "./constants.js";
 import { TrashService } from "./trashService.js";
 import { DeleteCommand } from "./deleteCommand.js";
+import { BrowseTrashCommand } from "./browseTrash.js";
 
 async function activate(context: vscode.ExtensionContext) {
   console.log(`${EXTENSION_NAME}: activated`);
@@ -17,11 +18,21 @@ async function activate(context: vscode.ExtensionContext) {
   }
 
   // 注册命令：在此编写函数实现，command必须与package.json中的commandId一致
+  
+  // 删除命令
   const deleteCommand = vscode.commands.registerCommand(
     "trash4wsl-in-vscode.deleteWithTrashCli",
-    DeleteCommand.execute
+    (uri: vscode.Uri, uris?: vscode.Uri[]) => DeleteCommand.execute(uri, uris)
   );
+  
+  // 浏览回收站历史命令
+  const browseTrashCommand = vscode.commands.registerCommand(
+    "trash4wsl-in-vscode.browseTrash",
+    () => BrowseTrashCommand.execute()
+  );
+  
   context.subscriptions.push(deleteCommand);
+  context.subscriptions.push(browseTrashCommand);
 }
 
 function deactivate() {

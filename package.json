@@ -5,12 +5,11 @@
         "command": "trash4wsl-in-vscode.deleteWithTrashCli",
         "title": "Delete (by trash-cli)",
         "category": "Trash4WSL",
-        "icon": "$(trash)",
-        "when": "false"
+        "icon": "$(trash)"
       },
       {
         "command": "trash4wsl-in-vscode.browseTrash",
-        "title": "trash4wsl: 浏览回收站（历史记录、恢复）",
+        "title": "trash4wsl: 浏览回收站（历史记录、恢复、清空）",
         "category": "Trash4WSL",
         "icon": "$(history)"
       }
@@ -21,6 +20,12 @@
           "command": "trash4wsl-in-vscode.deleteWithTrashCli",
           "when": "resourceScheme == 'vscode-remote' && !explorerResourceIsRoot",
           "group": "7_modification@0"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "trash4wsl-in-vscode.deleteWithTrashCli",
+          "when": "false"
         }
       ]
     }

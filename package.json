@@ -14,6 +14,14 @@
         "icon": "$(history)"
       }
     ],
+    "keybindings": [
+      {
+        "command": "trash4wsl-in-vscode.browseTrash",
+        "key": "ctrl+shift+delete",
+        "mac": "ctrl+shift+delete",
+        "when": "resourceScheme == 'vscode-remote'"
+      }
+    ],
     "menus": {
       "explorer/context": [
         {

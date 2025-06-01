@@ -2,12 +2,36 @@ import { exec } from "child_process";
 import { MESSAGES } from "./constants.js";
 
 /**
-  垃圾桶服务类，功能：
-  - 检查 trash-cli 安装状态
-  - 执行trash-put操作
+ * 垃圾桶服务类，功能：
+ * - 检查 trash-cli 安装状态
+ * - 执行trash-put操作
+ * - 获取回收站列表
+ * - 恢复文件
  */
 export class TrashService {
-  // 检查trash-cli是否安装
+  /**
+   * 获取当前工作区路径
+   */
+  private static getWorkspacePath(): string | undefined {
+    // 优先获取当前活动编辑器的工作区，作为trash的目录。
+    const activeEditor = vscode.window.activeTextEditor;
+    if (activeEditor) {
+      const workspaceFolder = vscode.workspace.getWorkspaceFolder(
+        activeEditor.document.uri
+      );
+      if (workspaceFolder) {
+        return workspaceFolder.uri.fsPath;
+      }
+    }
+    // 如果没有活动编辑器，回退到第一个工作区
+    const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+    return workspaceFolder?.uri.fsPath;
+  }
+
+  /**
+   * 检查trash-cli是否安装
+   * @returns 是否安装的Promise
+   */
   static async checkTrashCliInstallation(): Promise<boolean> {
     return new Promise((resolve) => {
       exec(`trash-put --help`, (error, stdout, stderr) => {
@@ -34,7 +58,7 @@ export class TrashService {
     console.log(`即将删除这些文件：${filePaths.join(", ")}`);
     
     // 对文件路径进行转义，防止包含空格的路径出现问题
-    const escapedPaths = filePaths.map(path => `"${path}"`);
+    const escapedPaths = filePaths.map((path) => `"${path}"`);
     const command = `trash-put ${escapedPaths.join(" ")}`;
     
     return new Promise((resolve) => {

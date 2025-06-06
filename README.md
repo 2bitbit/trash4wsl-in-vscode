@@ -1,8 +1,8 @@
 # trash4WSL-in-vscode
-<pre align="center"> 简体中文  |  <a href="./docs/README_en.md">English</a></pre>
+<pre align="center"> 简体中文  |  <a href="https://github.com/2bitbit/trash4wsl-in-vscode/blob/main/docs/README_en.md">English</a></pre>
 在VSCode WSL(或其他 remote 连接)中，再也不用担心永久误删文件无法后悔，现在有了迷人的回收站（基于 trash-cli 实现）。
 
-<img src="trash4wsl-demo.gif" alt="demo" width="500" height="auto">
+<img src="./trash4wsl-demo.gif" alt="demo" width="500" height="auto">
 
 ## 功能特色
 - 支持多根工作区

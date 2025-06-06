@@ -1,6 +1,6 @@
 # trash4wsl-in-vscode
 
-<pre align="center"> <a href="../README.md">简体中文</a>  |  English</pre>
+<pre align="center"> <a href="https://github.com/2bitbit/trash4wsl-in-vscode/blob/main/README.md">简体中文</a>  |  English</pre>
 
 In VSCode WSL (or other remote connections), no more worries about permanent file deletion without regret. Now enjoy a charming recycle bin (based on trash-cli implementation).
 

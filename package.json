@@ -1,4 +1,5 @@
 {
+  "version": "1.0.1",
   "contributes": {
     "commands": [
       {
@@ -51,7 +52,6 @@
     }
   },
   "name": "trash4wsl-in-vscode",
-  "version": "1.0.0",
   "displayName": "trash4wsl-in-vscode",
   "icon": "trash4wsl-icon.png",
   "description": "Right-click to send files/folders to trash (via trash-put) in VS Code remote environments like WSL.",

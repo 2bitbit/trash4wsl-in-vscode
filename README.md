@@ -23,5 +23,7 @@
 - trash-cli
 - VSCode
 
+
+如果这个插件对你有帮助，请在 GitHub 上给我一个星星⭐，这对我来说是十足的激励。
 <p align="center"><strong>Enjoy!祝愿你早安午安晚安</strong></p>
 <p align="center">Co-build with <strong>AI</strong></p>

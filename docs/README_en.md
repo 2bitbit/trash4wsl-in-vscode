@@ -25,5 +25,7 @@ In VSCode WSL (or other remote connections), no more worries about permanent fil
 - trash-cli
 - VSCode
 
+
+If this extension is helpful to you, please give it a star on GitHub! Your support means a lot to me. ⭐
 <p align="center"><strong>Enjoy! Wishing you good morning, good afternoon, and good night</strong></p>
 <p align="center">Co-build with <strong>AI</strong></p>

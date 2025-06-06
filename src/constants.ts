@@ -1,11 +1,19 @@
+export { EXTENSION_ID, packageJSON, IS_DEBUG, setIS_DEBUG };
+
 import * as vscode from "vscode";
+
+let IS_DEBUG: boolean;
+
+const setIS_DEBUG = (b: boolean) => { IS_DEBUG = b; };
+
 const EXTENSION_ID = "2bitbit.trash4wsl-in-vscode";
-const EXTENSION_NAME = vscode.extensions.getExtension(EXTENSION_ID)?.packageJSON.displayName;
 
-const MESSAGES = {
-  // trash-cli 检查相关
-  TRASH_CLI_AVAILABLE: "trash-cli 已安装并可用",
-  TRASH_CLI_UNAVAILABLE: `trash-cli未安装，${EXTENSION_NAME} 将不会生效。\n请先安装 trash-cli (例如：sudo apt install trash-cli)。`,
-};
+const packageJSON: any =
+  vscode.extensions.getExtension(EXTENSION_ID)?.packageJSON;
+  
+/*trash-restore输出格式（.表示空格）： ...0 2025-05-31 17:28:28 /home/finnwsl/test-wsl/dir
+                                     ...1 2025-05-31 17:36:04 /home/finnwsl/test-wsl/sample.txt
+                                     What file to restore [0..1]:.
 
-export { MESSAGES, EXTENSION_NAME, EXTENSION_ID };
+No files trashed from current dir ('/home/finnwsl/repos/vscode-ext-dev-playground')
+*/

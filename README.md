@@ -1,35 +1,27 @@
-# trash4wsl-in-vscode
+# trash4WSL-in-vscode
+<pre align="center"> 简体中文  |  <a href="./docs/README_en.md">English</a></pre>
+在VSCode WSL(或其他 remote 连接)中，再也不用担心永久误删文件无法后悔，现在有了迷人的回收站（基于 trash-cli 实现）。
 
-Allows you to safely move files and folders to the trash in WSL directly from the VS Code File Explorer sidebar, with just a click.
+<img src="trash4wsl-demo.gif" alt="demo" width="500" height="auto">
 
-The implementation is based on the trash-cli.
+## 功能特色
+- 支持多根工作区
+- 支持删除、搜索、恢复、清空
+- 支持 WSL、其他remote连接
+- 支持快捷键（默认是`delete`删除选中文件，`ctrl+shift+delete`打开回收站面板）
+- 简洁的 GUI
 
-<img src="./demo.png" alt="trash4wsl-in-vscode demo" width="300"/>
+## 如何使用
+1. 在目标环境终端 `apt install trash-cli` 安装 trash-cli
+2. 在 VSCode Marketplace 搜索 `trash4WSL-in-vscode` 安装此插件到工作区
+3. 选中文件，右键选择 `trash-put (via trash-cli)` 或使用快捷键 `delete` 删除选中文件
+4. `ctrl+shift+p` 或使用快捷键`ctrl+shift+delete`打开回收站面板进行相关操作
 
-## Features & Usage
+>温馨提示：默认回收站目录在 `~/.local/share/Trash/files`下。
 
-> Warning: This extension is not yet published to the VSCode Marketplace, so you need to download the VSIX file manually.
-
-Download [trash4wsl-in-vscode.vsix](https://github.com/2bitbit/trash4wsl-in-vscode/releases/latest/download/trash4wsl-in-vscode.vsix)
-
-1. Install trash-cli in your WSL distribution.
-2. Install this extension in VSCode manually via VSIX file.
-3. You can delete selected files and folders in WSL by right-clicking on them and selecting "Delete (by trash-cli)" from the context menu.（You can also use the `delete` key to delete single file or directory.）
-
-Your files and folders will be moved to the default trash directory used by trash-cli (typically `~/.local/share/Trash/files`).
-
-## tips
-
-- `trash-list` to see what you have deleted.
-- `trash-restore` to restore them.
-- `trash-empty` to empty the trash-cli.(Just be careful, dude)
-
-## Requirements
-
+## 依赖
 - trash-cli
 - VSCode
-- WSL
-- Your smile
 
-<p align="center"><strong>Enjoy!</strong></p>
-<p align="center">Co-build with <strong>Gemini-2.5 pro</strong></p>
+<p align="center"><strong>Enjoy!祝愿你早安午安晚安</strong></p>
+<p align="center">Co-build with <strong>AI</strong></p>

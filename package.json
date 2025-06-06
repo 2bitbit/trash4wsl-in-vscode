@@ -2,19 +2,27 @@
   "contributes": {
     "commands": [
       {
-        "command": "trash4wsl-in-vscode.deleteWithTrashCli",
-        "title": "Delete (by trash-cli)",
-        "category": "Trash4WSL",
-        "icon": "$(trash)"
+        "command": "trash4wsl-in-vscode.trashPutViaContextMenu",
+        "title": "trash-put (via trash-cli)"
+      },
+      {
+        "command": "trash4wsl-in-vscode.trashPutViaShortcut",
+        "title": "trash-put shortcut"
       },
       {
         "command": "trash4wsl-in-vscode.browseTrash",
-        "title": "trash4wsl: 浏览回收站（历史记录、恢复、清空）",
-        "category": "Trash4WSL",
+        "title": "浏览回收站（历史记录、恢复、清空）",
+        "category": "trash4wsl",
         "icon": "$(history)"
       }
     ],
     "keybindings": [
+      {
+        "command": "trash4wsl-in-vscode.trashPutViaShortcut",
+        "key": "delete",
+        "mac": "delete",
+        "when": "resourceScheme == 'vscode-remote' && filesExplorerFocus && !explorerResourceIsRoot && resourceSet"
+      },
       {
         "command": "trash4wsl-in-vscode.browseTrash",
         "key": "ctrl+shift+delete",
@@ -25,23 +33,27 @@
     "menus": {
       "explorer/context": [
         {
-          "command": "trash4wsl-in-vscode.deleteWithTrashCli",
+          "command": "trash4wsl-in-vscode.trashPutViaContextMenu",
           "when": "resourceScheme == 'vscode-remote' && !explorerResourceIsRoot",
           "group": "7_modification@0"
         }
       ],
       "commandPalette": [
         {
-          "command": "trash4wsl-in-vscode.deleteWithTrashCli",
+          "command": "trash4wsl-in-vscode.trashPutViaContextMenu",
+          "when": "false"
+        },
+        {
+          "command": "trash4wsl-in-vscode.trashPutViaShortcut",
           "when": "false"
         }
       ]
     }
   },
   "name": "trash4wsl-in-vscode",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "displayName": "trash4wsl-in-vscode",
-  "icon": "icon.png",
+  "icon": "trash4wsl-icon.png",
   "description": "Right-click to send files/folders to trash (via trash-put) in VS Code remote environments like WSL.",
   "publisher": "2bitbit",
   "author": {
@@ -74,7 +86,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onStartupFinished"
+    "*"
   ],
   "main": "./dist/extension.js",
   "extensionKind": [

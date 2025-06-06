@@ -1,37 +1,29 @@
 # trash4wsl-in-vscode
 
-<pre align="center">简体中文  |  <a href="https://github.com/2bitbit/trash4wsl-in-vscode/blob/main/docs/README_en.md">English</a></pre>
+<pre align="center"> <a href="../README.md">简体中文</a>  |  English</pre>
 
-Allows you to safely move files and folders to the trash in WSL directly from the VS Code File Explorer sidebar, with just a click.
+In VSCode WSL (or other remote connections), no more worries about permanent file deletion without regret. Now enjoy a charming recycle bin (based on trash-cli implementation).
 
-The implementation is based on the trash-cli.
+<img src="../trash4wsl-demo.gif" alt="demo" width="500" height="auto">
 
-<img src="./demo.png" alt="trash4wsl-in-vscode demo" width="300"/>
+## Features
+- Support for multi-root workspaces
+- Support for delete, search, restore, and empty operations
+- Support for WSL and other remote connections
+- Support for shortcuts (default: `delete` to delete selected files, `ctrl+shift+delete` to open trash panel)
+- Clean and simple GUI
 
-## Features & Usage
+## How to Use
+1. Install trash-cli in the target environment terminal: `apt install trash-cli`
+2. Search for `trash4wsl-in-vscode` in VSCode Marketplace and install this extension to your workspace
+3. Select files, right-click and choose `trash-put (via trash-cli)` or use the shortcut `delete` to delete selected files
+4. Use `ctrl+shift+p` or the shortcut `ctrl+shift+delete` to open the trash panel for related operations
 
-> Warning: This extension is not yet published to the VSCode Marketplace, so you need to download the VSIX file manually.
+>Tip: The default trash directory is located at `~/.local/share/Trash/files`.
 
-Download [trash4wsl-in-vscode.vsix](https://github.com/2bitbit/trash4wsl-in-vscode/releases/latest/download/trash4wsl-in-vscode.vsix)
-
-1. Install trash-cli in your WSL distribution.
-2. Install this extension in VSCode manually via VSIX file.
-3. You can delete selected files and folders in WSL by right-clicking on them and selecting "Delete (by trash-cli)" from the context menu.（You can also use the `delete` key to delete single file or directory.）
-
-Your files and folders will be moved to the default trash directory used by trash-cli (typically `~/.local/share/Trash/files`).
-
-## tips
-
-- `trash-list` to see what you have deleted.
-- `trash-restore` to restore them.
-- `trash-empty` to empty the trash-cli.(Just be careful, dude)
-
-## Requirements
-
+## Dependencies
 - trash-cli
 - VSCode
-- WSL
-- Your smile
 
-<p align="center"><strong>Enjoy!</strong></p>
-<p align="center">Co-build with <strong>Gemini-2.5 pro</strong></p>
+<p align="center"><strong>Enjoy! Wishing you good morning, good afternoon, and good night</strong></p>
+<p align="center">Co-build with <strong>AI</strong></p>

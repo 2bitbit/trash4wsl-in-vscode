@@ -71,7 +71,6 @@ export class TrashPalette {
         else if (button === emptyTrashButton) {
           await this.#handleEmptyTrash(path);
           refreshQuickPick(path);
-          vscode.window.showInformationMessage('回收站已清空');
         }
         else if (button === vscode.QuickInputButtons.Back) { this.show(); } // HACK: 简单处理一下，这里的返回上级直接调用show()回到初始界面
       });

@@ -6,6 +6,10 @@ on:
     tags:
       - 'v*.*.*'
 
+# 添加权限配置
+permissions:
+  contents: write  # 允许创建 release 和上传文件
+
 jobs:
   publish_to_marketplace:
     runs-on: ubuntu-latest

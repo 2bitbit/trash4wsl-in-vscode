@@ -54,7 +54,7 @@
   "name": "trash4wsl-in-vscode",
   "displayName": "trash4wsl-in-vscode",
   "icon": "trash4wsl-icon.png",
-  "description": "Right-click to send files/folders to trash (via trash-put) in VS Code remote environments like WSL.",
+  "description": "Send files/folders to trash in VS Code remote environments like WSL.",
   "publisher": "2bitbit",
   "author": {
     "name": "2bitbit"

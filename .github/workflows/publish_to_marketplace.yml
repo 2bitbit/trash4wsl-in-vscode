@@ -1,0 +1,45 @@
+name: Publish to Visual Studio Marketplace
+
+# 触发器：仅当一个 v*.*.* 格式的标签被推送到仓库时才运行
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  publish_to_marketplace:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install vsce
+        run: npm install -g @vscode/vsce
+
+      - name: Package VSIX
+        run: vsce package --no-yarn
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          # files 字段指定了要上传哪些文件，支持通配符
+          files: "*.vsix"
+        # GITHUB_TOKEN 是由 GitHub Actions 自动生成的，有权限创建 Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 发布到 Visual Studio Marketplace
+      - name: Publish to Visual Studio Marketplace
+        run: vsce publish --no-yarn
+        env:
+          # VSCE_PAT 是你需要自己设置的 Personal Access Token
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}

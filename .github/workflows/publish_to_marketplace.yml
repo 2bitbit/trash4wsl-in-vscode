@@ -47,3 +47,9 @@ jobs:
         env:
           # VSCE_PAT 是你需要自己设置的 Personal Access Token
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
+
+      - name: Install ovsx
+        run: npm install -g ovsx
+
+      - name: Publish to Open VSX Registry
+        run: ovsx publish *.vsix -p ${{ secrets.OVSX_PAT }}

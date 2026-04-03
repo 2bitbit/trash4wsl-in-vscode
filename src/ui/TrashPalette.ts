@@ -73,13 +73,17 @@ export class TrashPalette {
 
       // 配置按钮回调函数
       quickPick.onDidTriggerButton(async (button) => {
-        if (button === refreshButton) {
-          refreshQuickPick(path);
-        } else if (button === emptyTrashButton) {
-          await this.#handleEmptyTrash(path);
-          refreshQuickPick(path);
-        } else if (button === vscode.QuickInputButtons.Back) {
-          this.show();
+        switch (button) {
+          case refreshButton:
+            refreshQuickPick(path);
+            break;
+          case emptyTrashButton:
+            await this.#handleEmptyTrash(path);
+            refreshQuickPick(path);
+            break;
+          case vscode.QuickInputButtons.Back:
+            this.show();
+            break;
         } // HACK: 简单处理一下，这里的返回上级直接调用show()回到初始界面
       });
 

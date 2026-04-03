@@ -1,10 +1,9 @@
 import * as vscode from "vscode";
 import { normalizePaths, Uris2Paths } from "./fsUtils.js";
 import { TrashService } from "./TrashService.js";
-export { trashPutViaContextMenu, trashPutViaShortcut };
 
 /** 在explorer的右键上下文菜单点击，执行trash-put */
-async function trashPutViaContextMenu(_: vscode.Uri, uris: vscode.Uri[]) {
+export async function trashPutViaContextMenu(_: vscode.Uri, uris: vscode.Uri[]) {
   // 处理参数：uris已经包含了所有的文件/文件夹，第一个参数是右键单击的那个文件/文件夹uri，不必理会。
   let paths = Uris2Paths(uris);
   paths = normalizePaths(paths);
@@ -12,7 +11,7 @@ async function trashPutViaContextMenu(_: vscode.Uri, uris: vscode.Uri[]) {
 }
 
 /**在explorer选中，通过快捷键执行trash-put */
-async function trashPutViaShortcut() {
+export async function trashPutViaShortcut() {
   const originalClipboard = await vscode.env.clipboard.readText();
   vscode.commands.executeCommand("copyFilePath");
   const selectedPaths = await vscode.env.clipboard.readText();

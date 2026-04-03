@@ -1,13 +1,14 @@
 import * as vscode from "vscode";
-import { TrashService } from "./TrashService.js";
-import * as fsUtils from "./fsUtils.js";
-import { IS_DEBUG } from "./constants.js";
+import * as trashService from "../core/trashService.js";
+import * as fsUtils from "../core/fsUtils.js";
+import { IS_DEBUG } from "../core/constants.js";
 
 interface TrashItem2Display {
   label: string;
   description: string;
   path: string;
   deletionDate: string;
+  _id: string; // Keep track of native ID
 }
 /**
  * 浏览回收站的Palette
@@ -31,19 +32,20 @@ export class TrashPalette {
 
   /**  在palette中看是不是多根工作区，如果是，则多出一级选项选择trash目录，否则返回第一个工作区。*/
   async #showTrashDirPicker(workspacePaths: string[]): Promise<void> {
-    const res = await vscode.window.showQuickPick(workspacePaths);
+    const res = await vscode.window.showQuickPick(workspacePaths, {
+      placeHolder: "检测到多根工作区，请选择要查看哪个工作区的回收站",
+    });
     if (res) {
       await this.#showTrashItemPicker(res);
     }
   }
 
-
-
   /**
    * 显示回收站 Item 选择器界面
    */
   async #showTrashItemPicker(path: string): Promise<void> {
-    const initTrashQuickPick = (): vscode.QuickPick<TrashItem2Display> => {  // 不要用function，箭头函数没有自己的 this 绑定
+    const initTrashQuickPick = (): vscode.QuickPick<TrashItem2Display> => {
+      // 不要用function，箭头函数没有自己的 this 绑定
       // 创建选择器并配置
       const quickPick = vscode.window.createQuickPick<TrashItem2Display>();
       quickPick.canSelectMany = false;
@@ -56,23 +58,29 @@ export class TrashPalette {
 
       // 配置按钮
       const refreshButton: vscode.QuickInputButton = {
-        iconPath: new vscode.ThemeIcon('refresh'), // 使用 VS Code 内置的刷新图标
-        tooltip: '刷新任务列表'
+        iconPath: new vscode.ThemeIcon("refresh"), // 使用 VS Code 内置的刷新图标
+        tooltip: "刷新任务列表",
       };
       const emptyTrashButton: vscode.QuickInputButton = {
-        iconPath: new vscode.ThemeIcon('trash'), // 使用 VS Code 内置的刷新图标
-        tooltip: '清空回收站'
+        iconPath: new vscode.ThemeIcon("trash"), // 使用 VS Code 内置的刷新图标
+        tooltip: "清空回收站",
       };
-      quickPick.buttons = [vscode.QuickInputButtons.Back, refreshButton, emptyTrashButton]; // 添加刷新和内置的返回按钮
+      quickPick.buttons = [
+        vscode.QuickInputButtons.Back,
+        refreshButton,
+        emptyTrashButton,
+      ]; // 添加刷新和内置的返回按钮
 
       // 配置按钮回调函数
       quickPick.onDidTriggerButton(async (button) => {
-        if (button === refreshButton) { refreshQuickPick(path); }
-        else if (button === emptyTrashButton) {
+        if (button === refreshButton) {
+          refreshQuickPick(path);
+        } else if (button === emptyTrashButton) {
           await this.#handleEmptyTrash(path);
           refreshQuickPick(path);
-        }
-        else if (button === vscode.QuickInputButtons.Back) { this.show(); } // HACK: 简单处理一下，这里的返回上级直接调用show()回到初始界面
+        } else if (button === vscode.QuickInputButtons.Back) {
+          this.show();
+        } // HACK: 简单处理一下，这里的返回上级直接调用show()回到初始界面
       });
 
       // 根据用户输入实时动态更新选项列表 (onDidChangeValue)
@@ -104,7 +112,7 @@ export class TrashPalette {
       // QuickPick 隐藏时的处理（确保资源释放）
       quickPick.onDidHide(() => {
         quickPick.dispose();
-        console.log('TrashPalette disposed.');
+        console.log("TrashPalette disposed.");
       });
       return quickPick;
     };
@@ -112,7 +120,7 @@ export class TrashPalette {
     // 辅助函数
     const refreshQuickPick = async (path: string) => {
       console.log("refreshQuickPick 函数开始刷新QuickPick");
-      quickPick.busy = true;// QuickPick 的 busy 状态控制了加载动画 (滚动的小条)
+      quickPick.busy = true; // QuickPick 的 busy 状态控制了加载动画 (滚动的小条)
       quickPick.items = await this.#fetchTrashItems2Display(path);
       console.log("refreshQuickPick 函数已获取回收站内容");
       quickPick.title = `🗑️ 工作区回收站 (${quickPick.items.length}个项目)`;
@@ -123,9 +131,7 @@ export class TrashPalette {
     refreshQuickPick(path);
 
     quickPick.show();
-  };
-
-
+  }
 
   /**
    * 恢复指定项目
@@ -136,14 +142,18 @@ export class TrashPalette {
       {
         location: vscode.ProgressLocation.Notification,
         title: `正在恢复 ${item.path}...`,
-        cancellable: false
+        cancellable: false,
       },
-      async () => { return TrashService.trashRestore(item); }
+      async () => {
+        return trashService.trashRestore(item);
+      },
     );
 
     console.log("TrashPalette.restoreItem 执行完毕, 恢复结果:", success);
     if (!success) {
-      vscode.window.showErrorMessage(`❌ ${item.path} 恢复失败，将自动刷新列表`, { modal: true }
+      vscode.window.showErrorMessage(
+        `❌ ${item.path} 恢复失败，将自动刷新列表`,
+        { modal: true },
       );
     }
   }
@@ -155,14 +165,12 @@ export class TrashPalette {
     const result = await vscode.window.showWarningMessage(
       "确定要清空工作区相关的回收站内容吗？此操作不可恢复。",
       { modal: true },
-      "确定清空"
+      "确定清空",
     );
 
     if (result !== "确定清空") {
       return;
-    }
-    else {
-
+    } else {
       const success = await vscode.window.withProgress(
         {
           location: vscode.ProgressLocation.Notification,
@@ -170,8 +178,8 @@ export class TrashPalette {
           cancellable: false,
         },
         async () => {
-          return TrashService.emptyWorkspaceTrash(path);
-        }
+          return trashService.emptyWorkspaceTrash(path);
+        },
       );
 
       if (success) {
@@ -186,11 +194,12 @@ export class TrashPalette {
    * 获取工作区回收站内容
    */
   async #fetchTrashItems2Display(path: string): Promise<TrashItem2Display[]> {
-    return (await TrashService.listRestorableTrashItems(path)).map(item => ({
+    return (await trashService.listRestorableTrashItems(path)).map((item) => ({
       label: `${this.#getIcon(item.path)} ${item.path}`,
       description: `删除日期: ${item.deletionDate}`,
       path: item.path,
-      deletionDate: item.deletionDate
+      deletionDate: item.deletionDate,
+      _id: item._id,
     }));
   }
 

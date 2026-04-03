@@ -3,6 +3,7 @@
 out/**
 node_modules/**
 src/**
+rust-core/**
 .gitignore
 .yarnrc
 esbuild.js

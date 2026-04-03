@@ -1,16 +1,14 @@
 {
-  "version": "1.1.4",
-
-
+  "version": "2.0.0",
   "contributes": {
     "commands": [
       {
         "command": "trash4wsl-in-vscode.trashPutViaContextMenu",
-        "title": "trash-put (via trash-cli)"
+        "title": "丢入回收站"
       },
       {
         "command": "trash4wsl-in-vscode.trashPutViaShortcut",
-        "title": "trash-put shortcut"
+        "title": "通过快捷键丢入回收站"
       },
       {
         "command": "trash4wsl-in-vscode.browseTrash",
@@ -68,7 +66,6 @@
     "trash",
     "delete",
     "safe-delete",
-    "trash-cli",
     "recycle-bin",
     "file-management"
   ],
@@ -109,16 +106,17 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.90.0",
+    "@napi-rs/cli": "^3.6.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
+    "@types/vscode": "^1.90.0",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
     "@typescript-eslint/parser": "^8.31.1",
-    "eslint": "^9.25.1",
-    "esbuild": "^0.25.3",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^5.8.3",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.5.2"
+    "@vscode/test-electron": "^2.5.2",
+    "esbuild": "^0.25.3",
+    "eslint": "^9.25.1",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.8.3"
   }
 }

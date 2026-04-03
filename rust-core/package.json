@@ -1,0 +1,11 @@
+{
+  "name": "trash4wsl-backend",
+  "version": "1.0.0",
+  "napi": {
+    "name": "trash4wsl-backend",
+    "triples": {
+      "defaults": true,
+      "additional": []
+    }
+  }
+}

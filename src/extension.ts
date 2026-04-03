@@ -1,14 +1,14 @@
 import * as vscode from "vscode";
-import { TrashService } from "./TrashService.js";
 import {
   trashPutViaContextMenu,
   trashPutViaShortcut,
-} from "./trashPutCommand.js";
-import { TrashPalette } from "./TrashPalette.js";
-import { packageJSON, setIS_DEBUG, EXTENSION_ID } from "./constants.js";
+} from "./core/trashPutCommand.js";
+import { TrashPalette } from "./ui/TrashPalette.js";
+import { packageJSON, setIS_DEBUG, EXTENSION_ID } from "./core/constants.js";
 
 async function activate(context: vscode.ExtensionContext) {
-  console.log("trash4wsl-in-vscode 开始激活扩展");
+  console.log("trash4wsl-in-vscode 扩展已激活");
+
   if (context.extensionMode === vscode.ExtensionMode.Development) {
     console.log(`🐞 侦测到正在对${EXTENSION_ID}进行debug `);
     setIS_DEBUG(true);
@@ -16,15 +16,7 @@ async function activate(context: vscode.ExtensionContext) {
     setIS_DEBUG(false);
   }
 
-  // 检查trash-cli是否安装
-  if (!(await TrashService.checkTrashCliInstallation())) {
-    vscode.window.showWarningMessage(
-      `trash-cli未安装，${packageJSON.displayName} 将不会生效。\n请先安装 trash-cli (例如：sudo apt install trash-cli)。`
-    );
-    return;
-  }
-
-  // 注册命令：在此编写函数实现，command必须与package.json中的commandId一致
+  /* 注册命令：在此编写函数实现，command必须与package.json中的commandId一致*/
 
   // 删除命令-右键菜单
   const trashPutViaContextMenuCommand = vscode.commands.registerCommand(

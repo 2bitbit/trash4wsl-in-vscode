@@ -28,7 +28,7 @@
         "command": "trash4wsl-in-vscode.browseTrash",
         "key": "ctrl+shift+delete",
         "mac": "ctrl+shift+delete",
-        "when": "resourceScheme == 'vscode-remote'"
+        "when": "remoteName"
       }
     ],
     "menus": {

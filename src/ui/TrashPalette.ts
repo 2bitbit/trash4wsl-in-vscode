@@ -83,17 +83,8 @@ export class TrashPalette {
         } // HACK: 简单处理一下，这里的返回上级直接调用show()回到初始界面
       });
 
-      // 根据用户输入实时动态更新选项列表 (onDidChangeValue)
-      let debounceTimer: NodeJS.Timeout; // 在外部声明一个计时器变量
-      quickPick.onDidChangeValue(async (value) => {
-        clearTimeout(debounceTimer); // 清除之前的计时器
-        debounceTimer = setTimeout(async () => {
-          quickPick.busy = true; // 控制忙碌状态
-          const newItems2Display = await this.#fetchTrashItems2Display(path);
-          quickPick.items = newItems2Display;
-          quickPick.busy = false;
-        }, 300); // 简单的防抖处理
-      });
+      // 原先的 onDidChangeValue 被移除：原生的 QuickPick 会自动依据 label/description 执行高性能过滤，
+      // 不需要亦不应该在每次按键时去触发硬盘 IO。
 
       // 用户确认选择时的处理
       // 处理选择事件

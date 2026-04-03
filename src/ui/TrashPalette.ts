@@ -50,7 +50,7 @@ export class TrashPalette {
       const quickPick = vscode.window.createQuickPick<TrashItem2Display>();
       quickPick.canSelectMany = false;
       quickPick.onDidHide(() => quickPick.dispose());
-      quickPick.placeholder = "输入关键词实时搜索回收站内容...";
+      quickPick.placeholder = "输入关键词实时搜索回收站内容...(input keywords to filter trash items...)";
       quickPick.canSelectMany = false;
       if (IS_DEBUG) {
         quickPick.ignoreFocusOut = true;

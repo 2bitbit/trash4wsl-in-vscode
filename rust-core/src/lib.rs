@@ -2,6 +2,7 @@
 
 use napi::bindgen_prelude::*;
 use napi_derive::napi; // 直接导入具体的宏
+use std::path::Path;
 use trash::delete_all;
 use trash::os_limited::{list, purge_all, restore_all};
 
@@ -11,6 +12,18 @@ pub struct TrashItemNode {
     pub name: String,
     pub original_parent: String,
     pub time_deleted: f64, // not i64, use f64 for JS number compatibility (timestamps)
+    pub is_dir: bool,
+}
+
+fn is_trash_item_dir(id_str: &str) -> bool {
+    let info_path = Path::new(id_str);
+    if let Some(parent) = info_path.parent().and_then(|p| p.parent()) {
+        if let Some(stem) = info_path.file_stem() {
+            let files_path = parent.join("files").join(stem);
+            return files_path.is_dir();
+        }
+    }
+    false
 }
 
 #[napi]
@@ -24,11 +37,16 @@ pub fn list_trash() -> Result<Vec<TrashItemNode>> {
     let items = list().map_err(|e| Error::from_reason(e.to_string()))?;
     Ok(items
         .into_iter()
-        .map(|item| TrashItemNode {
-            id: item.id.clone().into_string().unwrap_or_default(),
-            name: item.name.clone(),
-            original_parent: item.original_parent.to_string_lossy().into_owned(),
-            time_deleted: item.time_deleted as f64,
+        .map(|item| {
+            let id_str = item.id.clone().into_string().unwrap_or_default();
+            let is_dir = is_trash_item_dir(&id_str);
+            TrashItemNode {
+                id: id_str,
+                name: item.name.clone(),
+                original_parent: item.original_parent.to_string_lossy().into_owned(),
+                time_deleted: item.time_deleted as f64,
+                is_dir,
+            }
         })
         .collect())
 }
@@ -48,11 +66,14 @@ pub fn list_workspace_trash(path_prefix: String) -> Result<Vec<TrashItemNode>> {
                 || parent.starts_with(&path_with_slash)
                 || full_path == path_prefix
             {
+                let id_str = item.id.clone().into_string().unwrap_or_default();
+                let is_dir = is_trash_item_dir(&id_str);
                 Some(TrashItemNode {
-                    id: item.id.clone().into_string().unwrap_or_default(),
+                    id: id_str,
                     name: item.name.clone(),
                     original_parent: parent,
                     time_deleted: item.time_deleted as f64,
+                    is_dir,
                 })
             } else {
                 None

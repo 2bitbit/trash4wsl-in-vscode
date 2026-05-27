@@ -1,8 +1,5 @@
 import * as vscode from "vscode";
-import {
-  trashPutViaContextMenu,
-  trashPutViaShortcut,
-} from "./core/trashPutCommand.js";
+import { trashPut } from "./core/trashPutCommand.js";
 import { TrashPalette } from "./ui/TrashPalette.js";
 import { packageJSON, setIS_DEBUG, EXTENSION_ID } from "./core/constants.js";
 
@@ -18,15 +15,10 @@ async function activate(context: vscode.ExtensionContext) {
 
   /* 注册命令：在此编写函数实现，command必须与package.json中的commandId一致*/
 
-  // 删除命令-右键菜单
-  const trashPutViaContextMenuCommand = vscode.commands.registerCommand(
-    "trash4wsl-in-vscode.trashPutViaContextMenu",
-    trashPutViaContextMenu
-  );
-  // 删除命令-快捷键
-  const trashPutViaShortcutCommand = vscode.commands.registerCommand(
-    "trash4wsl-in-vscode.trashPutViaShortcut",
-    trashPutViaShortcut
+  // 统一的删除命令（右键与快捷键共享）
+  const trashPutCommand = vscode.commands.registerCommand(
+    "trash4wsl-in-vscode.trashPut",
+    trashPut
   );
 
   // 浏览回收站历史命令
@@ -38,8 +30,7 @@ async function activate(context: vscode.ExtensionContext) {
     }
   );
 
-  context.subscriptions.push(trashPutViaContextMenuCommand);
-  context.subscriptions.push(trashPutViaShortcutCommand);
+  context.subscriptions.push(trashPutCommand);
   context.subscriptions.push(browseTrashCommand);
   console.log("trash4wsl-in-vscode 扩展激活完成");
 }

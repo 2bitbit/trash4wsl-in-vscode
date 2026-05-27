@@ -8,6 +8,7 @@ export interface TrashItemNode {
   name: string;
   originalParent: string;
   timeDeleted: number;
+  isDir: boolean;
 }
 
 export interface TrashBackend {

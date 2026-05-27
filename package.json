@@ -1,14 +1,10 @@
 {
-  "version": "2.0.1",
+  "version": "2.1.0",
   "contributes": {
     "commands": [
       {
-        "command": "trash4wsl-in-vscode.trashPutViaContextMenu",
+        "command": "trash4wsl-in-vscode.trashPut",
         "title": "丢入回收站(Trash It)"
-      },
-      {
-        "command": "trash4wsl-in-vscode.trashPutViaShortcut",
-        "title": "通过快捷键丢入回收站"
       },
       {
         "command": "trash4wsl-in-vscode.browseTrash",
@@ -19,7 +15,7 @@
     ],
     "keybindings": [
       {
-        "command": "trash4wsl-in-vscode.trashPutViaShortcut",
+        "command": "trash4wsl-in-vscode.trashPut",
         "key": "delete",
         "mac": "delete",
         "when": "resourceScheme == 'vscode-remote' && filesExplorerFocus && !explorerResourceIsRoot && resourceSet && !inputFocus"
@@ -34,18 +30,14 @@
     "menus": {
       "explorer/context": [
         {
-          "command": "trash4wsl-in-vscode.trashPutViaContextMenu",
+          "command": "trash4wsl-in-vscode.trashPut",
           "when": "resourceScheme == 'vscode-remote' && !explorerResourceIsRoot",
           "group": "7_modification@0"
         }
       ],
       "commandPalette": [
         {
-          "command": "trash4wsl-in-vscode.trashPutViaContextMenu",
-          "when": "false"
-        },
-        {
-          "command": "trash4wsl-in-vscode.trashPutViaShortcut",
+          "command": "trash4wsl-in-vscode.trashPut",
           "when": "false"
         }
       ]

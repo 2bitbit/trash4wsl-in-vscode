@@ -16,28 +16,31 @@ export function getWorkspacePaths(): string[] {
 }
 
 /**
- * 根据输入参数或当前选择确定要处理的文件列表
+ * 根据输入参数或当前选择确定要处理的文件列表并进行去重与路径包含过滤
  * @param uris 所有要处理的文件/文件夹的 URI 数组
- * @returns 要处理的文件/文件夹的路径，转义后的数组
+ * @returns 过滤与去重后、要处理的文件/文件夹的绝对路径数组
  */
 export function Uris2Paths(uris: vscode.Uri[]): string[] {
-  return uris // 让父目录永远排在子目录/文件前面。这样删除的时候，父目录会先被删除，子目录/文件后被删除。便于恢复。
-    .map((f) => f.fsPath)
-    .sort((a, b) => {
-      if (a.startsWith(b + "/")) {
-        return 1;
+  // 1. 获取所有 fsPath 并去重
+  const uniquePaths = Array.from(new Set(uris.map((f) => f.fsPath)));
+
+  // 2. 过滤掉已被父目录包含的冗余子路径
+  // 例如，如果同时存在 "/a" 和 "/a/b"，因后者属于前者的子孙路径，移动父目录时子路径会被一并带走。
+  // 过滤掉子路径能彻底避免 Rust 端 delete_all 因找不到已被移走的子路径而抛出 Entity not found 错误。
+  return uniquePaths.filter((path) => {
+    return !uniquePaths.some((other) => {
+      if (path === other) {
+        return false;
       }
-      if (b.startsWith(a + "/")) {
-        return -1;
-      }
-      // 其他情况按字母顺序排序
-      return a.localeCompare(b);
+      const parentWithSlash1 = other.endsWith("/") ? other : other + "/";
+      const parentWithSlash2 = other.endsWith("\\") ? other : other + "\\";
+      return path.startsWith(parentWithSlash1) || path.startsWith(parentWithSlash2);
     });
+  });
 }
 
-/** 判断给定的path是文件还是目录*/
+/** 判断给定的path是文件还是目录 - 已废弃：存在启发式精度问题，新版本中应直接使用来自后端的物理 item.isDir 属性 */
 export function isFile(path: string): boolean {
-  // 不能使用 fsUtils.isFile(path) 因为这些文件已经被删除到回收站了
   const hasExtension = /\.[^/\.]+$/.test(path);
   const endsWithSlash = path.endsWith("/") || path.endsWith("\\");
   return hasExtension && !endsWithSlash;

@@ -9,6 +9,7 @@ interface TrashItem2Display {
   path: string;
   deletionDate: string;
   _id: string; // Keep track of native ID
+  isDir: boolean;
 }
 /**
  * 浏览回收站的Palette
@@ -190,18 +191,19 @@ export class TrashPalette {
    */
   async #fetchTrashItems2Display(path: string): Promise<TrashItem2Display[]> {
     return (await trashService.listRestorableTrashItems(path)).map((item) => ({
-      label: `${this.#getIcon(item.path)} ${item.path}`,
+      label: `${this.#getIcon(item)} ${item.path}`,
       description: `删除日期: ${item.deletionDate}`,
       path: item.path,
       deletionDate: item.deletionDate,
       _id: item._id,
+      isDir: item.isDir,
     }));
   }
 
   /**
-   * 根据文件名判断并返回对应图标
+   * 根据项目物理属性返回对应图标
    */
-  #getIcon(path: string): string {
-    return fsUtils.isFile(path) ? "$(file)" : "$(folder)";
+  #getIcon(item: { isDir: boolean }): string {
+    return item.isDir ? "$(folder)" : "$(file)";
   }
 }

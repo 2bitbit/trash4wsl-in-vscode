@@ -45,6 +45,7 @@ export interface TrashItem {
   path: string;
   deletionDate: string;
   _id: string; // Internal native ID tracking
+  isDir: boolean;
 }
 
 /**
@@ -86,6 +87,7 @@ export async function listRestorableTrashItems(
         path: `${i.originalParent}/${i.name}`,
         deletionDate: dateStr,
         _id: i.id, // Track the native ID for restoring
+        isDir: i.isDir,
       };
     });
 

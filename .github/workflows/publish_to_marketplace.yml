@@ -35,12 +35,12 @@ jobs:
         run: |
           cd rust-core
           npm ci || true
-          npx napi build --platform --target x86_64-unknown-linux-gnu --output-dir ../native-bindings
+          npx napi build --release --platform --target x86_64-unknown-linux-gnu --output-dir ../native-bindings
 
       - name: Build Native Rust Backend (arm64)
         run: |
           cd rust-core
-          CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc npx napi build --platform --target aarch64-unknown-linux-gnu --output-dir ../native-bindings
+          CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc npx napi build --release --platform --target aarch64-unknown-linux-gnu --output-dir ../native-bindings
 
       - name: Install vsce
         run: npm install -g @vscode/vsce
